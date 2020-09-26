@@ -1,8 +1,8 @@
-    future
-    pilton
-    rfc3987
-    webcolors
-    jsonpointer
-    strict-rfc3339
-    git+ssh://git@github.com/volodymyrss/dqueue.git@master  --upgrade
-    git+ssh://git@github.com/volodymyrss/data-analysis.git@master  --upgrade
+future
+pilton
+rfc3987
+webcolors
+jsonpointer
+strict-rfc3339
+git+ssh://git@github.com/volodymyrss/dqueue.git@master
+git+ssh://git@github.com/volodymyrss/data-analysis.git@master
