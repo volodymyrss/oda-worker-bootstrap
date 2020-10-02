@@ -26,10 +26,13 @@ export INTEGRAL_DDCACHE_ROOT=$PWD/data/reduced/ddcache
 export INTEGRAL_DATA=$REP_BASE_PROD/
 export ISGRI_RESPONSE=/unsaved/astro/savchenk/data/resources/rmf_62bands.fits 
 
-pip install pip --upgrade
-pip install -r requirements.txt
+#pip install pip --upgrade
+#pip install -r requirements.txt
+
+export PYTHONPATH=$PWD/data-analysis:$PYTHONPATH
 
 dqueue info
 
 
 python -m dataanalysis.caches.queue $ODAHUB
+#python -m dataanalysis.caches.queue -V $ODAHUB
