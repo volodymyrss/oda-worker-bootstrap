@@ -30,9 +30,10 @@ export ISGRI_RESPONSE=/unsaved/astro/savchenk/data/resources/rmf_62bands.fits
 #pip install -r requirements.txt
 
 export PYTHONPATH=$PWD/data-analysis:$PYTHONPATH
+export PYTHONPATH=$PWD/dqueue:$PYTHONPATH
 
 dqueue info
 
 
 python -m dataanalysis.caches.queue $ODAHUB
-#python -m dataanalysis.caches.queue -V $ODAHUB
+#python -m dataanalysis.caches.queue -V $ODAHUB -B 1 -t 100
