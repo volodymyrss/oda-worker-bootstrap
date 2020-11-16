@@ -7,7 +7,7 @@ pip install --user data-analysis oda-node --upgrade
 
 dqueue version
 
-d=/scratch/savchenk/odawtmp$$-$RANDOM
+d=/hpcstorage/savchenk/oda-runner/tmp-runner/odawtmp$$-$RANDOM
 
 export EXIT_WITHOUT_INTEGRAL_ARCHIVE=yes
 
