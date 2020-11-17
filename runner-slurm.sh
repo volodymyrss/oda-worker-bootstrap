@@ -74,3 +74,5 @@ HERE
 
     )
 done
+
+rm -rfv $d
