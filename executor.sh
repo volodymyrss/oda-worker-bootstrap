@@ -1,3 +1,5 @@
+export ODAHUB=https://dqueue.staging-1-3.odahub.io@queue-osa11
+
 echo "scratch_root: ${scratch_root:?}"
 echo "log_root: ${log_root:?}"
 

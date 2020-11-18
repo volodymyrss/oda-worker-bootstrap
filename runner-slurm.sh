@@ -5,6 +5,8 @@
 export PYTHONUNBUFFERED=1
 ODA_WORKER_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. >/dev/null 2>&1 && pwd )"
 
+export ODAHUB=https://dqueue.staging-1-3.odahub.io@queue-osa11
+
 pip install --user data-analysis oda-node --upgrade
 
 dqueue version
@@ -19,13 +21,6 @@ export EXIT_WITHOUT_INTEGRAL_ARCHIVE=yes
 
 mkdir -pv $d
 
-function report_action() {
-    action=${1:?}
-
-    python -c 'import json; print(json.dumps({"origin": "oda-worker", "action": "'$action'", "job": "'$worker_name'", "scratch_root": "'$scratch_root'"}))' > msg 
-    cat msg
-    cat msg | nc cdcihn 5001
-}
 
 for n in $(seq 1 5); do
 
@@ -44,9 +39,7 @@ HERE
         source ~/init-osa.sh
 
         worker_name=${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}
-        report_action starting
-        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n $worker_name 
-        report_action stopping
+        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n $worker_name   --json-log-file=log.json
 
     )
     
@@ -70,7 +63,7 @@ HERE
 
         source ~/init-osa.sh
 
-        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob} 
+        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}  --json-log-file=log.json
 
     )
 done
