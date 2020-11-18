@@ -18,7 +18,7 @@ d=${scratch_root}/odawtmp$$-$RANDOM
 export EXIT_WITHOUT_INTEGRAL_ARCHIVE=yes
 
 mkdir -pv $d
-        
+
 function report_action() {
     action=${1:?}
 
@@ -45,7 +45,7 @@ HERE
 
         worker_name=${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}
         report_action starting
-        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n $worker_name
+        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n $worker_name 
         report_action stopping
 
     )
@@ -70,7 +70,7 @@ HERE
 
         source ~/init-osa.sh
 
-        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}
+        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob} 
 
     )
 done
