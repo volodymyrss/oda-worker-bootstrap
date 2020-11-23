@@ -21,9 +21,11 @@ export EXIT_WITHOUT_INTEGRAL_ARCHIVE=yes
 
 mkdir -pv $d
 
+echo "worker enabled features: ${DDA_WORKER_ENABLE:=OSA10.2,OSA11.0}"
 
-for n in $(seq 1 5); do
+for n in $(seq 1 ${DDA_WORKER_LIFETIME:-3}); do
 
+    if echo $DDA_WORKER_ENABLE | grep OSA11.0; then
     (
         export OSA=11.0
         cd $d
@@ -38,11 +40,18 @@ for n in $(seq 1 5); do
 HERE
         source ~/init-osa.sh
 
-        worker_name=${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}
+        export DDA_WORKER_METADATA_ISDC_ENV=$ISDC_ENV
+        export DDA_WORKER_METADATA_OSA=$OSA
+        export DDA_WORKER_METADATA_PLATFORM=lesta
+        export DDA_WORKER_METADATA_SCRATCH_ROOT=$scratch_root
+
+        worker_name=${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}-lesta
         python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n $worker_name   --json-log-file=log.json
 
     )
+    fi
     
+    if echo $DDA_WORKER_ENABLE | grep OSA10.2; then
     (
         cd $d
         export OSA=10.2
@@ -63,9 +72,19 @@ HERE
 
         source ~/init-osa.sh
 
-        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}  --json-log-file=log.json
+        export DDA_WORKER_METADATA_ISDC_ENV=$ISDC_ENV
+        export DDA_WORKER_METADATA_OSA=$OSA
+        export DDA_WORKER_METADATA_PLATFORM=lesta
+        export DDA_WORKER_METADATA_SCRATCH_ROOT=$scratch_root
+
+        python -m dataanalysis.caches.queue $ODAHUB -B 1 -k  worker-knowledge.yaml -n ${HOSTNAME}-${OSA}-${SLURM_JOBID:-notajob}-lesta  --json-log-file=log.json
 
     )
+    fi
 done
 
-rm -rfv $d
+if [ "${DDA_CLEANUP:-yes}" == "yes" ]; then
+    rm -rfv $d
+else
+    echo -e "\033[31mleaving intact temporary directory: $d"
+fi
