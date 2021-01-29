@@ -5,7 +5,7 @@
 export PYTHONUNBUFFERED=1
 ODA_WORKER_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. >/dev/null 2>&1 && pwd )"
 
-export ODAHUB=https://dqueue.staging-1-3.odahub.io@queue-osa11
+export ODAHUB=https://crux.staging-1-3.odahub.io@default
 
 pip install --user data-analysis oda-node --upgrade
 
@@ -21,6 +21,7 @@ export EXIT_WITHOUT_INTEGRAL_ARCHIVE=yes
 
 mkdir -pv $d
 
+#echo "worker enabled features: ${DDA_WORKER_ENABLE:=OSA11.0}"
 echo "worker enabled features: ${DDA_WORKER_ENABLE:=OSA10.2,OSA11.0}"
 
 for n in $(seq 1 ${DDA_WORKER_LIFETIME:-3}); do
