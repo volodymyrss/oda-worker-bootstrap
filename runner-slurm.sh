@@ -34,6 +34,8 @@ for n in $(seq 1 ${DDA_WORKER_LIFETIME:-3}); do
 
     cat -> worker-knowledge.yaml <<HERE
 - any-of:
+  - key: ['object_identity', 'factory_name']
+    value: 'ReportScWList' 
   - key: ['object_identity', 'modules']
     value: ['git', 'ddosa11/staging-1-3', 'None']
   - key: ['object_identity', 'modules']
