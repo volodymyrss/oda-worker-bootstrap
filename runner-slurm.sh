@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source /usr/share/lmod/lmod/init/bash
+
+module load proxy
+
 # trace!
 
 export PYTHONUNBUFFERED=1
@@ -24,6 +28,8 @@ mkdir -pv $d
 #echo "worker enabled features: ${DDA_WORKER_ENABLE:=OSA11.0}"
 echo "worker enabled features: ${DDA_WORKER_ENABLE:=OSA10.2,OSA11.0}"
 
+export MIMIC_DDA_GIT_CLONE=yes
+
 for n in $(seq 1 ${DDA_WORKER_LIFETIME:-3}); do
 
     if echo $DDA_WORKER_ENABLE | grep OSA11.0; then
@@ -40,7 +46,12 @@ for n in $(seq 1 ${DDA_WORKER_LIFETIME:-3}); do
     value: ['git', 'ddosa11/staging-1-3', 'None']
   - key: ['object_identity', 'modules']
     value: ['git', 'ddosa11', 'git://ddosa11/staging-1-3']
+  - key: ['object_identity', 'modules'] 
+    value: ['git', 'ddosa11', 'git://ddosa11/icversion']
+  - key: ['object_identity', 'modules'] 
+    value: ['git', 'ddosa11/icversion', 'None']
 HERE
+## last iceverion
         source ~/init-osa.sh
 
         export DDA_WORKER_METADATA_ISDC_ENV=$ISDC_ENV
@@ -66,6 +77,10 @@ HERE
     value: ['git', 'ddosa11/staging-1-3', 'None']
   - key: ['object_identity', 'modules']
     value: ['git', 'ddosa11', 'git://ddosa11/staging-1-3']
+  - key: ['object_identity', 'modules'] 
+    value: ['git', 'ddosa11', 'git://ddosa11/icversion']
+  - key: ['object_identity', 'modules'] 
+    value: ['git', 'ddosa11/icversion', 'None']
 - any-of:
   - key: ['object_identity', 'modules']
     value: ['git', 'ddosa/staging-1-3', 'None']

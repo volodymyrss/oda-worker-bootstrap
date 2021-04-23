@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source /usr/share/lmod/lmod/init/bash
+
+module load proxy
+
 set -xe -o pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -15,9 +19,9 @@ pip install --upgrade oda-node
 export LOGSTASH_ENTRYPOINT=cdcihn.isdc.unige.ch:5001
 
 while true; do 
-    python -m dqueue.cli runner start-executor -m 30 -t 10 -n -5 \
+    python -m dqueue.cli runner start-executor -m 100 -t 10 -n -2 \
            -d 'd='${log_root}/'logs/{dt.year}-{dt.month:02d}/{dt.day:02d}/{dt.hour:02d}-{dt.minute:02d}/; 
                mkdir -pv $d
-               sbatch --export=scratch_root --exclude=node075 -o $d/log-{hostname}-{pid}-{age:06d}.txt '$DIR'/runner-slurm.sh' \
+               for i in $(seq 1 1); do sbatch -p p4,p5 --export=scratch_root -o $d/log-{hostname}-{pid}-{age:06d}-$i.txt '$DIR'/runner-slurm.sh; done' \
            -l 'squeue -u savchenk | grep -v JOBID  || true'; 
 done 
