@@ -4,6 +4,7 @@ source env.d/env.sh
 
 export PYTHONPATH=$PWD/data-analysis:$PYTHONPATH
 export PYTHONPATH=$PWD/dqueue:$PYTHONPATH
+export ODAHUB=http://crux-private.internal.odahub.io@default
 
 dqueue version
 
